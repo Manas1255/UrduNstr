@@ -1,6 +1,10 @@
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {FC} from 'react';
-import {Text, TouchableOpacity, View} from 'react-native';
+import {FC, useState} from 'react';
+import {Image, Text, TouchableOpacity, View} from 'react-native';
+import {
+  ImageLibraryOptions,
+  launchImageLibrary,
+} from 'react-native-image-picker';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {BackArrowIcon} from './assets';
 import {UploadStackParams} from './navigation/UploadStack';
@@ -11,6 +15,26 @@ type UploadScreenProps = NativeStackScreenProps<
 >;
 
 const UploadScreen: FC<UploadScreenProps> = ({navigation}) => {
+  const [imageUri, setImageUri] = useState<string | undefined>('');
+
+  const options: ImageLibraryOptions = {
+    mediaType: 'photo',
+    includeBase64: true,
+    maxHeight: 400,
+    maxWidth: 400,
+  };
+
+  const onUploadPress = () => {
+    try {
+      launchImageLibrary(options, response => {
+        if (response.assets) {
+          setImageUri(response.assets[0].uri);
+        }
+      });
+    } catch (e) {
+      console.log(e);
+    }
+  };
   return (
     <SafeAreaView style={{flex: 1}}>
       <View
@@ -22,22 +46,72 @@ const UploadScreen: FC<UploadScreenProps> = ({navigation}) => {
 
           flexDirection: 'row',
         }}>
-        <TouchableOpacity onPress={() => navigation.navigate('HomeScreen')}>
+        <TouchableOpacity
+          onPress={() => navigation.navigate('HomeScreen')}
+          style={{marginRight: 100}}>
           <BackArrowIcon />
         </TouchableOpacity>
-        <Text style={{color: 'white', fontSize: 40}}>Results</Text>
+        <Text style={{color: 'white', fontSize: 40}}>اردوNSTR</Text>
       </View>
 
-      <View style={{padding: 24}}>
-        <Text style={{fontSize: 24, marginTop: 32}}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-          minim veniam, quis nostrud exercitation henderit in voluptate velit
-          esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-          cupidatat non proident, sunt in culpa qui officia deserunt mollit anim
-          id est laborum
-        </Text>
+      <Text style={{fontSize: 24, marginTop: 32, textAlign: 'center'}}>
+        Please click or upload Image:
+      </Text>
+
+      <TouchableOpacity
+        style={{
+          width: '80%',
+          backgroundColor: '#1D3557',
+          height: 64,
+          marginTop: 32,
+          alignSelf: 'center',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}>
+        <Text style={{color: 'white', fontSize: 32}}>Open Camera</Text>
+      </TouchableOpacity>
+
+      <Text style={{fontSize: 32, textAlign: 'center', marginTop: 32}}>OR</Text>
+
+      <TouchableOpacity
+        style={{
+          width: '80%',
+          height: 64,
+          marginTop: 32,
+          alignSelf: 'center',
+          alignItems: 'center',
+          justifyContent: 'center',
+          borderWidth: 1,
+        }}
+        onPress={onUploadPress}>
+        <Text style={{fontSize: 32}}>Upload Image</Text>
+      </TouchableOpacity>
+
+      <View
+        style={{justifyContent: 'center', alignItems: 'center', marginTop: 32}}>
+        <Image
+          source={{uri: imageUri}}
+          style={{
+            width: 100,
+            height: 100,
+
+            marginBottom: 4,
+          }}
+        />
       </View>
+
+      <TouchableOpacity
+        style={{
+          width: '80%',
+          height: 64,
+          marginTop: 32,
+          alignSelf: 'center',
+          alignItems: 'center',
+          justifyContent: 'center',
+          borderWidth: 1,
+        }}>
+        <Text style={{fontSize: 32}}>Next</Text>
+      </TouchableOpacity>
     </SafeAreaView>
   );
 };

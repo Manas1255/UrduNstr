@@ -22,7 +22,9 @@ const ResultsScreen: FC<ResultsScreenProps> = ({navigation}) => {
 
           flexDirection: 'row',
         }}>
-        <TouchableOpacity onPress={() => navigation.navigate('HomeScreen')}>
+        <TouchableOpacity
+          onPress={() => navigation.navigate('HomeScreen')}
+          style={{marginRight: 100}}>
           <BackArrowIcon />
         </TouchableOpacity>
         <Text style={{color: 'white', fontSize: 40}}>Results</Text>
