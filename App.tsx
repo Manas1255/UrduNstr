@@ -11,7 +11,7 @@ import React from 'react';
 import {StyleSheet, Text, useColorScheme, View} from 'react-native';
 
 import {Colors} from 'react-native/Libraries/NewAppScreen';
-import HomeStackNavigator from './src/screens/navigation/HomeStack';
+import RootStackNavigator from './src/screens/navigation/RootStack';
 
 type SectionProps = PropsWithChildren<{
   title: string;
@@ -63,7 +63,7 @@ function App(): React.JSX.Element {
 
   return (
     <NavigationContainer>
-      <HomeStackNavigator />
+      <RootStackNavigator />
     </NavigationContainer>
   );
 }
