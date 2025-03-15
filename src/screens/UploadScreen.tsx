@@ -2,7 +2,9 @@ import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {FC, useState} from 'react';
 import {Image, Text, TouchableOpacity, View} from 'react-native';
 import {
+  CameraOptions,
   ImageLibraryOptions,
+  launchCamera,
   launchImageLibrary,
 } from 'react-native-image-picker';
 import {SafeAreaView} from 'react-native-safe-area-context';
@@ -17,8 +19,16 @@ type UploadScreenProps = NativeStackScreenProps<
 const UploadScreen: FC<UploadScreenProps> = ({navigation}) => {
   const [imageUri, setImageUri] = useState<string | undefined>('');
 
-  const options: ImageLibraryOptions = {
+  const galleryOptions: ImageLibraryOptions = {
     mediaType: 'photo',
+    includeBase64: true,
+    maxHeight: 400,
+    maxWidth: 400,
+  };
+
+  const cameraOptions: CameraOptions = {
+    mediaType: 'photo',
+    saveToPhotos: true,
     includeBase64: true,
     maxHeight: 400,
     maxWidth: 400,
@@ -26,7 +36,7 @@ const UploadScreen: FC<UploadScreenProps> = ({navigation}) => {
 
   const onUploadPress = () => {
     try {
-      launchImageLibrary(options, response => {
+      launchImageLibrary(galleryOptions, response => {
         if (response.assets) {
           setImageUri(response.assets[0].uri);
         }
@@ -35,6 +45,19 @@ const UploadScreen: FC<UploadScreenProps> = ({navigation}) => {
       console.log(e);
     }
   };
+
+  const onCameraPress = () => {
+    try {
+      launchCamera(cameraOptions, response => {
+        if (response.assets) {
+          setImageUri(response.assets[0].uri);
+        }
+      });
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   return (
     <SafeAreaView style={{flex: 1}}>
       <View
@@ -43,7 +66,6 @@ const UploadScreen: FC<UploadScreenProps> = ({navigation}) => {
           height: 100,
           backgroundColor: '#457B9D',
           alignItems: 'center',
-
           flexDirection: 'row',
         }}>
         <TouchableOpacity
@@ -67,7 +89,8 @@ const UploadScreen: FC<UploadScreenProps> = ({navigation}) => {
           alignSelf: 'center',
           alignItems: 'center',
           justifyContent: 'center',
-        }}>
+        }}
+        onPress={onCameraPress}>
         <Text style={{color: 'white', fontSize: 32}}>Open Camera</Text>
       </TouchableOpacity>
 
@@ -89,15 +112,16 @@ const UploadScreen: FC<UploadScreenProps> = ({navigation}) => {
 
       <View
         style={{justifyContent: 'center', alignItems: 'center', marginTop: 32}}>
-        <Image
-          source={{uri: imageUri}}
-          style={{
-            width: 100,
-            height: 100,
-
-            marginBottom: 4,
-          }}
-        />
+        {imageUri ? (
+          <Image
+            source={{uri: imageUri}}
+            style={{
+              width: 100,
+              height: 100,
+              marginBottom: 4,
+            }}
+          />
+        ) : null}
       </View>
 
       <TouchableOpacity
