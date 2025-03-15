@@ -1,5 +1,7 @@
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {FC} from 'react';
+import HomeScreen from '../HomeScreen';
+import ResultsScreen from '../ResultsScreen';
 
 export type HomeStackParams = {
   HomeScreen: undefined;
