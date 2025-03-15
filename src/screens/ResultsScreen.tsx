@@ -1,7 +1,8 @@
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {FC} from 'react';
-import {Text, View} from 'react-native';
+import {Text, TouchableOpacity, View} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
+import {BackArrowIcon} from './assets';
 import {HomeStackParams} from './navigation/HomeStack';
 
 type ResultsScreenProps = NativeStackScreenProps<
@@ -9,18 +10,33 @@ type ResultsScreenProps = NativeStackScreenProps<
   'ResultsScreen'
 >;
 
-const ResultsScreen: FC<ResultsScreenProps> = () => {
+const ResultsScreen: FC<ResultsScreenProps> = ({navigation}) => {
   return (
     <SafeAreaView style={{flex: 1}}>
       <View
         style={{
           width: '100%',
-          height: 60,
+          height: 100,
           backgroundColor: '#457B9D',
           alignItems: 'center',
-          justifyContent: 'center',
+
+          flexDirection: 'row',
         }}>
-        <Text style={{color: 'white', fontSize: 24}}>اردوNSTR</Text>
+        <TouchableOpacity onPress={() => navigation.navigate('HomeScreen')}>
+          <BackArrowIcon />
+        </TouchableOpacity>
+        <Text style={{color: 'white', fontSize: 40}}>Results</Text>
+      </View>
+
+      <View style={{padding: 24}}>
+        <Text style={{fontSize: 24, marginTop: 32}}>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+          minim veniam, quis nostrud exercitation henderit in voluptate velit
+          esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
+          cupidatat non proident, sunt in culpa qui officia deserunt mollit anim
+          id est laborum
+        </Text>
       </View>
     </SafeAreaView>
   );
