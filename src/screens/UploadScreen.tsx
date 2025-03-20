@@ -133,6 +133,9 @@ const UploadScreen: FC<UploadScreenProps> = ({navigation}) => {
           alignItems: 'center',
           justifyContent: 'center',
           borderWidth: 1,
+        }}
+        onPress={() => {
+          navigation.navigate('ResultsScreen');
         }}>
         <Text style={{fontSize: 32}}>Next</Text>
       </TouchableOpacity>
