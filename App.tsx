@@ -7,9 +7,10 @@
 
 import {NavigationContainer} from '@react-navigation/native';
 import type {PropsWithChildren} from 'react';
-import React from 'react';
-import {StyleSheet, Text, useColorScheme, View} from 'react-native';
+import React, {useEffect} from 'react';
+import {Platform, StyleSheet, Text, useColorScheme, View} from 'react-native';
 
+import SplashScreen from 'react-native-splash-screen';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import RootStackNavigator from './src/screens/navigation/RootStack';
 
@@ -60,6 +61,12 @@ function App(): React.JSX.Element {
    * https://github.com/react-native-community/discussions-and-proposals/discussions/827
    */
   const safePadding = '5%';
+
+  useEffect(() => {
+    if (Platform.OS === 'android') {
+      SplashScreen.hide();
+    }
+  }, []);
 
   return (
     <NavigationContainer>
